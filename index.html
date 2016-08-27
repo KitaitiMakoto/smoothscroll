@@ -163,6 +163,21 @@
     footer a {
       color: inherit;
     }
+
+    #nesting-parent {
+      position: absolute;
+    }
+    #nesting-parent .nesting-child {
+      height: 100vh;
+      border-top: solid 1px black;
+      overflow: scroll;
+    }
+    #nesting-parent .nesting-child:last-child {
+      display: flex;
+    }
+    #nesting-parent .nesting-child h1 {
+      position: absolute;
+    }
   </style>
 </head>
 <body>
@@ -251,6 +266,27 @@
     <div class="container"></div>
   </section>
 
+  <section id="nesting">
+    <h1>Nesting</h1>
+    <ul>
+      <li><a href="#nesting-child-01" class="js-nesting">Nesting child 01</a></li>
+      <li><a href="#nesting-child-02" class="js-nesting">Nesting child 02</a></li>
+      <li><a href="#nesting-child-03" class="js-nesting">Nesting child 03</a></li>
+    </ul>
+    <section id="nesting-parent">
+      <h1>Nesting parent</h1>
+      <section class="nesting-child" id="nesting-child-01">
+        <h1>Nesting child 01</h1>
+      </section>
+      <section class="nesting-child" id="nesting-child-02">
+        <h1>Nesting child 02</h1>
+      </section>
+      <section class="nesting-child" id="nesting-child-03">
+        <h1>Nesting child 03</h1>
+      </section>
+    </section>
+  </section>
+
   <section class="featured">
     <div class="container">
       <a class="featured__link" href="https://github.com/iamdustan/smoothscroll">Polyfill on <strong>GitHub</strong></a>
@@ -300,6 +336,18 @@
         e.preventDefault();
         document.querySelector('.hello').scrollIntoView({ behavior: 'smooth' });
       });
+
+      // nesting
+      var links = document.querySelectorAll('.js-nesting');
+      for (var i = 0, l = links.length; i < l; i++) {
+        (function(link) {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var targetId = link.getAttribute('href').slice(1);
+            document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+          });
+        })(links[i]);
+      }
     });
   </script>
 </body>
